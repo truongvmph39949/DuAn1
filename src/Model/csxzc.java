@@ -8,6 +8,6 @@ package sevice;
  *
  * @author puddi
  */
-public class ohhmaygod {
-    
+
+public class csxzc {
 }
