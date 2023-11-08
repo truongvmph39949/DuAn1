@@ -33,7 +33,7 @@ public class KichCO {
     }
 
     public String getSize() {
-        return Size;
+        return Size.substring(0, 2);
     }
 
     public void setSize(String Size) {

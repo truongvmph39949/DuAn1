@@ -71,7 +71,7 @@ public class SanPham {
     }
 
     public String getTrangThai() {
-        return TrangThai;
+        return TrangThai.equals("1")?"Còn hàng":"Hết hàng";
     }
 
     public void setTrangThai(String TrangThai) {
