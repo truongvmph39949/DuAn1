@@ -49,12 +49,12 @@ public class SanPhamService implements InF_SanPham {
                 ThuongHie thuongHie = new ThuongHie(rs.getString(7));
                 SanPham sanPham = new SanPham(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
                         danhMuc, thuongHie, xuatSu, rs.getString(5));
-                KichCO kichCO = new KichCO(rs.getString(8));
+                KichCO kichCO = new KichCO(rs.getFloat(8));
                 ChatLieu chatLieu = new ChatLieu(rs.getString(10));
                 MauSac mauSac = new MauSac(rs.getString(9));
                 ChitietSP chitietSP = new ChitietSP(rs.getString(12), sanPham, kichCO, mauSac, chatLieu);
                 list.add(chitietSP);
-                
+
             }
             return list;
 
@@ -67,17 +67,16 @@ public class SanPhamService implements InF_SanPham {
 
     @Override
     public int add(SanPham sp) {
-        
+
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-
     @Override
     public int update(SanPham sp, String MaSP) {
-        sql="Update SanPham set MaSP=?,TenSP=?,SoLuong=?,TrangThai=?,Gia=? where MaSP=?";
+        sql = "Update SanPham set MaSP=?,TenSP=?,SoLuong=?,TrangThai=?,Gia=? where MaSP=?";
         try {
-            con=DBconnect1.getConnection();
-            ps=con.prepareStatement(sql);
+            con = DBconnect1.getConnection();
+            ps = con.prepareStatement(sql);
             ps.setObject(1, sp.getMaSP());
             ps.setObject(2, sp.getTenSP());
             ps.setObject(3, sp.getSoluong());
@@ -89,7 +88,7 @@ public class SanPhamService implements InF_SanPham {
             e.printStackTrace();
             return 0;
         }
-        
+
     }
 
 }
