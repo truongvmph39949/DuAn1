@@ -13,7 +13,7 @@ public class Login extends javax.swing.JFrame {
 
     private static String urlDB = "jdbc:sqlserver://localhost:1433;databaseName=nhom6";
     private static String usersName = "sa";
-    private static String password = "bang0565350162";
+    private static String password = "123456";
 
     public Login() {
         initComponents();
