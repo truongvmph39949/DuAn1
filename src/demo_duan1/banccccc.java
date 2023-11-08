@@ -8,6 +8,6 @@ package demo_duan1;
  *
  * @author admin
  */
-public class addd {
+public class banccccc {
     
 }
