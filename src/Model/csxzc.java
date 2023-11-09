@@ -8,6 +8,6 @@ package Model;
  *
  * @author Admin
  */
-public class HaiNGu {
+public class csxzc {
     
 }
