@@ -45,7 +45,7 @@ public class SanPham {
         this.Gia = Gia;
         this.Mota = Mota;
     }
-
+   
     public String getMaSP() {
         return MaSP;
     }
@@ -71,7 +71,7 @@ public class SanPham {
     }
 
     public String getTrangThai() {
-        return TrangThai;
+        return TrangThai.equals("1")?"Còn hàng":"Hết hàng";
     }
 
     public void setTrangThai(String TrangThai) {
@@ -103,7 +103,7 @@ public class SanPham {
     }
 
     public String getGia() {
-        return Gia;
+        return Gia.substring(0, Gia.length()-5);
     }
 
     public void setGia(String Gia) {

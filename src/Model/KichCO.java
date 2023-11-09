@@ -9,7 +9,7 @@ package Model;
  * @author admin
  */
 public class KichCO {
-    private String MaKC;
+     private String MaKC;
     private float Size;
 
     public KichCO() {
@@ -28,8 +28,8 @@ public class KichCO {
         this.MaKC = MaKC;
     }
 
-    public float getSize() {
-        return Size;
+    public String getSize() {
+        return String.valueOf(Size).substring(0, 2);
     }
 
     public void setSize(float Size) {
@@ -38,16 +38,11 @@ public class KichCO {
 
     @Override
     public String toString() {
-        return Size+"";
+        return String.valueOf(Size).substring(0, 2);
     }
 
     public KichCO(float Size) {
         this.Size = Size;
     }
-    
-
-    
-
-    
-    
+ 
 }

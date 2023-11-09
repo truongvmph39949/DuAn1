@@ -30,7 +30,7 @@ public class SanPhamService implements InF_SanPham {
 
     public List<ChitietSP> getAll() {
         sql = "select SanPham.Ma_SP, SanPham.TenSP,SanPham.SoLuong,SanPham.TrangThai,SanPham.Gia,\n"
-                + "XuatXu.XuatXu,ThuongHieu.TenTH,KichCo.Size,MauSac.TenMau,ChatLieu.TenCL,DanhMuc.TenDM,ChiTietSP.Ma_SPCT from SanPham \n"
+                + "XuatXu.XuatXu,ThuongHieu.TenTH,KichCo.Size,MauSac.TenMau,ChatLieu.TenCL,DanhMuc.TenDM,ChiTietSP.Ma_SPCT,SanPham.MoTa from SanPham \n"
                 + "join XuatXu on SanPham.Ma_XX=XuatXu.Ma_XX\n"
                 + "join ThuongHieu on SanPham.Ma_TH=ThuongHieu.Ma_TH\n"
                 + "join DanhMuc on SanPham.Ma_DM=DanhMuc.Ma_DM\n"
@@ -44,11 +44,12 @@ public class SanPhamService implements InF_SanPham {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                XuatSu xuatSu = new XuatSu(rs.getString(6));
+                 XuatSu xuatSu = new XuatSu(rs.getString(6));
                 DanhMuc danhMuc = new DanhMuc(rs.getString(11));
                 ThuongHie thuongHie = new ThuongHie(rs.getString(7));
+             
                 SanPham sanPham = new SanPham(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-                        danhMuc, thuongHie, xuatSu, rs.getString(5));
+                        danhMuc, thuongHie, xuatSu, rs.getString(5), rs.getString(13));
                 KichCO kichCO = new KichCO(rs.getFloat(8));
                 ChatLieu chatLieu = new ChatLieu(rs.getString(10));
                 MauSac mauSac = new MauSac(rs.getString(9));
@@ -68,12 +69,34 @@ public class SanPhamService implements InF_SanPham {
     @Override
     public int add(SanPham sp) {
 
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        sql = "Insert into SanPham (ma_sp, tensp, soluong, trangthai, gia, ma_dm, ma_xx, ma_th, mota)"
+                + "values(?,?,?,?,?,?,?,?,?)";
+        try {
+            con = DBconnect1.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setObject(1, sp.getMaSP());
+            ps.setObject(2, sp.getTenSP());
+            ps.setObject(3, sp.getSoluong());
+            ps.setObject(4, sp.getTrangThai());
+            ps.setObject(5, sp.getGia());
+            ps.setObject(6,sp.getDanhMuc().getMaDM());
+            ps.setObject(7, sp.getXuatSu().getMaXX());
+            ps.setObject(8, sp.getThuongHie().getMaTH());
+            ps.setObject(9, sp.getMota());
+            return ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     @Override
     public int update(SanPham sp, String MaSP) {
+
+        sql = "Update SanPham set TenSP=?,SoLuong=?,TrangThai=?,Gia=? where MaSP=?";
+
         sql = "Update SanPham set MaSP=?,TenSP=?,SoLuong=?,TrangThai=?,Gia=? where MaSP=?";
+
         try {
             con = DBconnect1.getConnection();
             ps = con.prepareStatement(sql);
