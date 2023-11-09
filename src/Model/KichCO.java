@@ -9,17 +9,13 @@ package Model;
  * @author admin
  */
 public class KichCO {
-    private String MaKC;
-    private String Size;
+     private String MaKC;
+    private float Size;
 
     public KichCO() {
     }
 
-    public KichCO(String Size) {
-        this.Size = Size;
-    }
-    
-    public KichCO(String MaKC, String Size) {
+    public KichCO(String MaKC, float Size) {
         this.MaKC = MaKC;
         this.Size = Size;
     }
@@ -33,11 +29,20 @@ public class KichCO {
     }
 
     public String getSize() {
-        return Size.substring(0, 2);
+        return String.valueOf(Size).substring(0, 2);
     }
 
-    public void setSize(String Size) {
+    public void setSize(float Size) {
         this.Size = Size;
     }
-    
+
+    @Override
+    public String toString() {
+        return String.valueOf(Size).substring(0, 2);
+    }
+
+    public KichCO(float Size) {
+        this.Size = Size;
+    }
+ 
 }

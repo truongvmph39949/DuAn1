@@ -1,7 +1,10 @@
 package demo_duan1;
 
 import Model.ChitietSP;
+import Model.DanhMuc;
 import Model.SanPham;
+import Model.ThuongHie;
+import Model.XuatSu;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -11,6 +14,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -80,7 +84,83 @@ public class Main extends javax.swing.JFrame {
         txtPnMoTa.setText(chitietSP.getSanPham().getMota());
     }
 
+    public boolean validateForm() {
+        List<ChitietSP> list = service.getAll();
+
+        if (txtDanhMuc.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa điền đủ thông tin");
+            return false;
+        }
+        for (ChitietSP chitietSP : list) {
+            String danhmuc = chitietSP.getSanPham().getDanhMuc().getTenDM();
+
+        }
+        if (txtMaSP.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa điền đủ thông tin");
+            return false;
+        }
+        if (txtTenSP.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa điền đủ thông tin");
+            return false;
+        }
+        if (txtSL.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa điền đủ thông tin");
+            return false;
+        }
+        if (txtXuatXu.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa điền đủ thông tin");
+            return false;
+        }
+        if (txtThuonghieu.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa điền đủ thông tin");
+            return false;
+        }
+        if (txtChatLieu.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa điền đủ thông tin");
+            return false;
+        }
+        if (txtGia.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa điền đủ thông tin");
+            return false;
+        }
+        if (Integer.parseInt(txtGia.getText().trim()) <= 0) {
+            JOptionPane.showMessageDialog(this, "Giá sai!");
+            return false;
+        }
+        if (txtPnMoTa.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa điền đủ thông tin");
+            return false;
+        }
+        boolean flag = false;
+        for (ChitietSP chitietSP : list) {
+            String danhmuc = chitietSP.getSanPham().getDanhMuc().getTenDM();
+            String maSP = chitietSP.getSanPham().getMaSP();
+            String xuatXu = chitietSP.getSanPham().getXuatSu().getXuatXu();
+            String thuongHieu = chitietSP.getSanPham().getThuongHie().getTenTH();
+            String chatLieu = chitietSP.getChatLieu().getTenCL();
+            if (!danhmuc.equals(txtDanhMuc.getText().trim())) {
+                flag = true;
+            }
+            if (maSP.equals(txtMaSP.getText().trim())) {
+                flag = true;
+            }
+            if (!xuatXu.equals(txtXuatXu.getText().trim())) {
+                flag = true;
+            }
+            if (!thuongHieu.equals(txtThuonghieu.getText().trim())) {
+                flag = true;
+            }
+            if (!chatLieu.equals(txtChatLieu.getText().trim())) {
+                flag = true;
+            }
+        }
+        if (flag) {
+            return false;
+        }
+        return true;
+    }
     // hàm trong tab thuộc tính sản phẩm, đưa dữ liệu sau khi được thêm hoặc sửa rồi fill lên bảng
+
     public void fillThuocTinh(List<ChitietSP> list) {
         mol = (DefaultTableModel) tblThongTinThuocTinh.getModel();
         mol.setRowCount(0);
@@ -96,9 +176,15 @@ public class Main extends javax.swing.JFrame {
             } else if (rdKichCo.isSelected()) {
                 ob = "Kích cỡ";
                 ob1 = chitietSP.getKichCO().getSize();
-            } else if (rdTenLoaiSanPham.isSelected()) {
+            } else if (rdDanhMuc.isSelected()) {
                 ob = "Danh mục";
                 ob1 = chitietSP.getSanPham().getDanhMuc().getTenDM();
+            } else if (rdXuatXU.isSelected()) {
+                ob = "Xuất xứ";
+                ob1 = chitietSP.getSanPham().getXuatSu().getXuatXu();
+            } else if (rdThuongHieu.isSelected()) {
+                ob = "Thương hiệu";
+                ob1 = chitietSP.getSanPham().getThuongHie().getTenTH();
             } else {
                 JOptionPane.showMessageDialog(this, "Bạn chưa chọn thuộc tính!");
                 return;
@@ -108,6 +194,47 @@ public class Main extends javax.swing.JFrame {
             });
             i++;
         }
+    }
+
+    public SanPham getDataOnForm() {
+        List<ChitietSP> list = service.getAll();
+        String maSP, tenSP, soLuong, trangThai, gia, ma_DM = null, ma_XX = null, ma_TH = null, mota;
+        for (ChitietSP chitietSP : list) {
+            String danhmuc = chitietSP.getSanPham().getDanhMuc().getTenDM();
+            if (danhmuc.equals(txtDanhMuc.getText().trim())) {
+                ma_DM = chitietSP.getSanPham().getDanhMuc().getMaDM();
+                break;
+            }
+        }
+        DanhMuc danhMuc = new DanhMuc(ma_DM, txtDanhMuc.getText().trim());
+        for (ChitietSP chitietSP : list) {
+            String xuatXu = chitietSP.getSanPham().getXuatSu().getXuatXu();
+            if (xuatXu.equals(txtXuatXu.getText().trim())) {
+                ma_XX = chitietSP.getSanPham().getXuatSu().getMaXX();
+                break;
+            }
+        }
+        XuatSu xuatXu = new XuatSu(ma_XX, txtXuatXu.getText().trim());
+        for (ChitietSP chitietSP : list) {
+            String thuongHieu = chitietSP.getSanPham().getThuongHie().getTenTH();
+            if (thuongHieu.equals(txtThuonghieu.getText().trim())) {
+                ma_DM = chitietSP.getSanPham().getDanhMuc().getMaDM();
+                break;
+            }
+        }
+        ThuongHie thuongHieu = new ThuongHie(ma_TH, txtThuonghieu.getText().trim());
+        maSP = txtMaSP.getText();
+        tenSP = txtTenSP.getText();
+        soLuong = txtSL.getText();
+        if (Integer.parseInt(soLuong) > 0) {
+            trangThai = "1";
+        } else {
+            trangThai = "0";
+        }
+        gia = txtGia.getText();
+        mota = txtPnMoTa.getText();
+
+        return new SanPham(maSP, tenSP, soLuong, trangThai, danhMuc, thuongHieu, xuatXu, gia, mota);
     }
 
     @SuppressWarnings("unchecked")
@@ -122,7 +249,7 @@ public class Main extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         buttonGroup2 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        sanPham = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
         TTSP = new javax.swing.JTabbedPane();
         thongTinSP = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -161,18 +288,19 @@ public class Main extends javax.swing.JFrame {
         rdMauSac = new javax.swing.JRadioButton();
         rdKichCo = new javax.swing.JRadioButton();
         rdChatLieu = new javax.swing.JRadioButton();
-        rdTenLoaiSanPham = new javax.swing.JRadioButton();
+        rdDanhMuc = new javax.swing.JRadioButton();
         btnThemThuocTinh = new javax.swing.JButton();
         btnSuaThuocTinh = new javax.swing.JButton();
         btnAnThuocTinh = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        rdXuatXU = new javax.swing.JRadioButton();
+        rdThuongHieu = new javax.swing.JRadioButton();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblThongTinThuocTinh = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         banHang = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
@@ -300,6 +428,11 @@ public class Main extends javax.swing.JFrame {
 
         btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Add.png"))); // NOI18N
         btnThem.setText("Thêm");
+        btnThem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThemMouseClicked(evt);
+            }
+        });
 
         btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Notes.png"))); // NOI18N
         btnSua.setText("Sửa");
@@ -446,8 +579,7 @@ public class Main extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(thongTinSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(txtChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(28, 28, 28)
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -484,8 +616,8 @@ public class Main extends javax.swing.JFrame {
         buttonGroup2.add(rdChatLieu);
         rdChatLieu.setText("Chất liệu");
 
-        buttonGroup2.add(rdTenLoaiSanPham);
-        rdTenLoaiSanPham.setText("Tên loại sản phẩm");
+        buttonGroup2.add(rdDanhMuc);
+        rdDanhMuc.setText("Danh mục");
 
         btnThemThuocTinh.setText("Thêm");
         btnThemThuocTinh.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -505,6 +637,12 @@ public class Main extends javax.swing.JFrame {
 
         jLabel1.setText("Tên thuộc tính");
 
+        buttonGroup2.add(rdXuatXU);
+        rdXuatXU.setText("Xuất xứ");
+
+        buttonGroup2.add(rdThuongHieu);
+        rdThuongHieu.setText("Thương hiệu");
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -519,12 +657,16 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(129, 129, 129)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rdMauSac)
-                            .addComponent(rdChatLieu))
-                        .addGap(189, 189, 189)
+                            .addComponent(rdChatLieu)
+                            .addComponent(rdMauSac))
+                        .addGap(60, 60, 60)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rdKichCo)
-                            .addComponent(rdTenLoaiSanPham))))
+                            .addComponent(rdDanhMuc))
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rdThuongHieu)
+                            .addComponent(rdXuatXU))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnThemThuocTinh, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
@@ -544,14 +686,20 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdMauSac)
                     .addComponent(rdKichCo)
-                    .addComponent(btnSuaThuocTinh))
-                .addGap(18, 18, 18)
-                .addComponent(btnAnThuocTinh)
-                .addGap(3, 3, 3)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdChatLieu)
-                    .addComponent(rdTenLoaiSanPham))
-                .addContainerGap(51, Short.MAX_VALUE))
+                    .addComponent(btnSuaThuocTinh)
+                    .addComponent(rdXuatXU))
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAnThuocTinh)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rdDanhMuc)
+                            .addComponent(rdChatLieu)
+                            .addComponent(rdThuongHieu))
+                        .addGap(66, 66, 66))))
         );
 
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin thuộc tính", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Segoe UI Black", 0, 14), new java.awt.Color(142, 135, 135))); // NOI18N
@@ -613,29 +761,29 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(22, 22, 22))
         );
 
         TTSP.addTab("Thuộc tính sản phẩm", jPanel2);
 
-        javax.swing.GroupLayout sanPhamLayout = new javax.swing.GroupLayout(sanPham);
-        sanPham.setLayout(sanPhamLayout);
-        sanPhamLayout.setHorizontalGroup(
-            sanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sanPhamLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(TTSP, javax.swing.GroupLayout.PREFERRED_SIZE, 963, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
-        sanPhamLayout.setVerticalGroup(
-            sanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sanPhamLayout.createSequentialGroup()
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(TTSP)
                 .addGap(0, 0, 0))
         );
 
-        jTabbedPane1.addTab("Sản phẩm", new javax.swing.ImageIcon(getClass().getResource("/Icons/Brick house.png")), sanPham); // NOI18N
+        jTabbedPane1.addTab("Sản phẩm ", new javax.swing.ImageIcon(getClass().getResource("/Icons/trainers (1).png")), jPanel5); // NOI18N
 
         javax.swing.GroupLayout banHangLayout = new javax.swing.GroupLayout(banHang);
         banHang.setLayout(banHangLayout);
@@ -662,19 +810,6 @@ public class Main extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Hoá đơn ", new javax.swing.ImageIcon(getClass().getResource("/Icons/Price list.png")), jPanel4); // NOI18N
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1026, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 859, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Sản phẩm ", new javax.swing.ImageIcon(getClass().getResource("/Icons/trainers (1).png")), jPanel5); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -808,6 +943,19 @@ public class Main extends javax.swing.JFrame {
     private void txtTenSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenSPActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTenSPActionPerformed
+
+    private void btnThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemMouseClicked
+       
+            SanPham sp = getDataOnForm();
+            if (service.add(sp) > 1) {
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
+                fillTable(service.getAll());
+            } else {
+                JOptionPane.showMessageDialog(this, "Thêm thất bại");
+                fillTable(service.getAll());
+            }
+       
+    }//GEN-LAST:event_btnThemMouseClicked
     int xy, xx;
 
     void setColor(JPanel panel) {
@@ -900,11 +1048,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JRadioButton rdChatLieu;
+    private javax.swing.JRadioButton rdDanhMuc;
     private javax.swing.JRadioButton rdKichCo;
     private javax.swing.JRadioButton rdMauSac;
-    private javax.swing.JRadioButton rdTenLoaiSanPham;
+    private javax.swing.JRadioButton rdThuongHieu;
+    private javax.swing.JRadioButton rdXuatXU;
     private javax.swing.JRadioButton rdoCon;
-    private javax.swing.JPanel sanPham;
     private javax.swing.JTable tblBang;
     private javax.swing.JTable tblThongTinThuocTinh;
     private javax.swing.JPanel thongTinSP;

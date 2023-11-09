@@ -44,17 +44,16 @@ public class SanPhamService implements InF_SanPham {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                XuatSu xuatSu = new XuatSu(rs.getString(6));
+                 XuatSu xuatSu = new XuatSu(rs.getString(6));
                 DanhMuc danhMuc = new DanhMuc(rs.getString(11));
                 ThuongHie thuongHie = new ThuongHie(rs.getString(7));
-
-                SanPham sanPham = new SanPham(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), danhMuc, thuongHie,
-                        xuatSu, rs.getString(5), rs.getString(13));
-                KichCO kichCO = new KichCO(rs.getString(8));
+             
+                SanPham sanPham = new SanPham(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        danhMuc, thuongHie, xuatSu, rs.getString(5), rs.getString(13));
+                KichCO kichCO = new KichCO(rs.getFloat(8));
                 ChatLieu chatLieu = new ChatLieu(rs.getString(10));
                 MauSac mauSac = new MauSac(rs.getString(9));
                 ChitietSP chitietSP = new ChitietSP(rs.getString(12), sanPham, kichCO, mauSac, chatLieu);
-
                 list.add(chitietSP);
 
             }
@@ -69,6 +68,7 @@ public class SanPhamService implements InF_SanPham {
 
     @Override
     public int add(SanPham sp) {
+
         sql = "Insert into SanPham (ma_sp, tensp, soluong, trangthai, gia, ma_dm, ma_xx, ma_th, mota)"
                 + "values(?,?,?,?,?,?,?,?,?)";
         try {
@@ -79,15 +79,24 @@ public class SanPhamService implements InF_SanPham {
             ps.setObject(3, sp.getSoluong());
             ps.setObject(4, sp.getTrangThai());
             ps.setObject(5, sp.getGia());
-            ps.setObject(6,sp.getDanhMuc().getTenDM());
+            ps.setObject(6,sp.getDanhMuc().getMaDM());
+            ps.setObject(7, sp.getXuatSu().getMaXX());
+            ps.setObject(8, sp.getThuongHie().getMaTH());
+            ps.setObject(9, sp.getMota());
+            return ps.executeUpdate();
         } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
         }
-        return 0;
     }
 
     @Override
     public int update(SanPham sp, String MaSP) {
+
         sql = "Update SanPham set TenSP=?,SoLuong=?,TrangThai=?,Gia=? where MaSP=?";
+
+        sql = "Update SanPham set MaSP=?,TenSP=?,SoLuong=?,TrangThai=?,Gia=? where MaSP=?";
+
         try {
             con = DBconnect1.getConnection();
             ps = con.prepareStatement(sql);
