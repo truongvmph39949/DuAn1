@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/puddi/OneDrive/Documents/NetBeansProjects/duandemosua/DuAn1Demo/DuAn1Demo/vietbdph31189_asm/src/sevice/SanPhamService.java</file>
             <file>file:/C:/Users/puddi/OneDrive/Documents/NetBeansProjects/duandemosua/DuAn1Demo/DuAn1Demo/vietbdph31189_asm/src/Interface_SanPham/InF_SanPham.java</file>
             <file>file:/C:/Users/puddi/OneDrive/Documents/NetBeansProjects/duandemosua/DuAn1Demo/DuAn1Demo/vietbdph31189_asm/src/demo_duan1/Main.java</file>
@@ -10,6 +11,9 @@
             <file>file:/C:/Users/puddi/OneDrive/Documents/NetBeansProjects/duandemosua/DuAn1Demo/DuAn1Demo/vietbdph31189_asm/src/Model/SanPham.java</file>
             <file>file:/C:/Users/puddi/OneDrive/Documents/NetBeansProjects/duandemosua/DuAn1Demo/DuAn1Demo/vietbdph31189_asm/src/Model/ChitietSP.java</file>
             <file>file:/C:/Users/puddi/OneDrive/Documents/NetBeansProjects/duandemosua/DuAn1Demo/DuAn1Demo/vietbdph31189_asm/src/Model/ThuongHie.java</file>
+=======
+
+>>>>>>> 1761273d140877b5cbd87dc39858681b4cc12c2e
         </group>
     </open-files>
 </project-private>
