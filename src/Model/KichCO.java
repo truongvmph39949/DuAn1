@@ -10,16 +10,12 @@ package Model;
  */
 public class KichCO {
     private String MaKC;
-    private String Size;
+    private float Size;
 
     public KichCO() {
     }
 
-    public KichCO(String Size) {
-        this.Size = Size;
-    }
-    
-    public KichCO(String MaKC, String Size) {
+    public KichCO(String MaKC, float Size) {
         this.MaKC = MaKC;
         this.Size = Size;
     }
@@ -32,12 +28,26 @@ public class KichCO {
         this.MaKC = MaKC;
     }
 
-    public String getSize() {
+    public float getSize() {
         return Size;
     }
 
-    public void setSize(String Size) {
+    public void setSize(float Size) {
         this.Size = Size;
     }
+
+    @Override
+    public String toString() {
+        return Size+"";
+    }
+
+    public KichCO(float Size) {
+        this.Size = Size;
+    }
+    
+
+    
+
+    
     
 }
